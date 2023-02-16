@@ -25,6 +25,10 @@ def handle_invalid_usage(error):
 def sitemap():
     return generate_sitemap(app)
 
+@app.route('/test', methods=['GET'])
+def test():
+    return jsonify('Test'), 200
+
 @app.route('/members', methods=['GET'])
 def handle_hello():
 
@@ -37,6 +41,50 @@ def handle_hello():
 
 
     return jsonify(response_body), 200
+
+@app.route('/members/<int:member_id>', methods=['GET'])
+def handle_get_member(member_id):
+
+    # this is how you can use the Family datastructure by calling its methods
+    get_member = jackson_family.get_member(member_id)
+    response_body = get_member
+
+    return jsonify(response_body), 200
+
+@app.route('/member', methods=['POST'])
+def handle_add_member():
+    body = request.get_json()
+    
+    new_member = {
+        "id": body['id'],
+        "first_name": body['first_name'],
+        "age": body['age'],
+        "lucky_numbers": body['lucky_numbers']
+    }
+
+    # this is how you can use the Family datastructure by calling its methods
+    new_members = jackson_family.add_member(new_member)
+    response_body = {
+        'msg': 'Member added successfully',
+        'family': new_members
+    }
+
+
+    return jsonify(response_body), 200
+
+@app.route('/member/<int:member_id>', methods=['DELETE'])
+def handle_delete_member(member_id):
+
+    # this is how you can use the Family datastructure by calling its methods
+    delete_member = jackson_family.delete_member(member_id)
+    response_body = {
+        'msg': 'Member deleted successfully',
+        'family': delete_member
+    }
+
+    return jsonify(response_body), 200
+
+
 
 # this only runs if `$ python src/app.py` is executed
 if __name__ == '__main__':

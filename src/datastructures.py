@@ -13,7 +13,42 @@ class FamilyStructure:
         self.last_name = last_name
 
         # example list of members
-        self._members = []
+        self._members = [{
+            "id": self._generateId(),
+            "first_name": "John",
+            "last_name": last_name,
+            "age": 33,
+            "lucky_numbers": [ 7, 13, 22 ]
+        },
+        {
+            "id": self._generateId(),
+            "first_name": "Jane",
+            "last_name": last_name,
+            "age": 35,
+            "lucky_numbers": [ 10, 14, 3 ]
+        },
+        {
+            "id": self._generateId(),
+            "first_name": "Jimmy",
+            "last_name": last_name,
+            "age": 5,
+            "lucky_numbers": [ 1 ]
+        }]
+
+    #{
+    #    "id": self._generateId(),
+    #    "first_name": "Jimmy",
+    #    "last_name": last_name,
+    #    "age": 5,
+    #    "lucky_numbers": [ 1 ]
+    #}
+
+    #{
+        #"id": null,
+        #"first_name": "Michael",
+        #"age": 29,
+        #"lucky_numbers": [ 3 ]
+    #}
 
     # read-only: Use this method to generate random members ID's when adding members into the list
     def _generateId(self):
@@ -21,15 +56,38 @@ class FamilyStructure:
 
     def add_member(self, member):
         # fill this method and update the return
-        pass
+        if member['id'] is None:
+            member['id'] = self._generateId()
+
+        member['last_name'] = self.last_name
+
+        self._members.append(member)
+        print(self._members)
+        
+        return self._members
 
     def delete_member(self, id):
         # fill this method and update the return
-        pass
+        all_members = self._members
+        new_members = []
+
+        for dic in all_members:
+            if dic['id'] == id:
+                all_members.remove(dic)
+                new_members = all_members
+        
+        return new_members
 
     def get_member(self, id):
         # fill this method and update the return
-        pass
+        all_members = self._members
+        one_member = []
+
+        for dic in all_members:
+            if dic['id'] == id:
+                one_member = dic
+        
+        return one_member
 
     # this method is done, it returns a list with all the family members
     def get_all_members(self):
